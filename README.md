@@ -134,7 +134,7 @@ _Pendiente: diagrama de arquitectura (frontend → API en capas → PostgreSQL /
 
 ## Cómo trabajamos (equipo)
 
-- `main`: lo que está desplegado. Solo entra por Pull Request.
+- `master`: lo que está desplegado. Solo entra por Pull Request.
 - `develop`: integración.
 - Ramas de trabajo desde `develop`: `feature/auth-login`, `feature/tickets-crud`, `fix/...`
 - Commits cortos y en presente: `feat: crear endpoint de login`, `fix: validar tamaño de adjunto`.
