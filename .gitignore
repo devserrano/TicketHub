@@ -1,0 +1,26 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Variables de entorno con secretos (usa .env.example como plantilla)
+.env
+
+# Logs
+*.log
+logs/
+
+# k6 resultados
+k6/results/
