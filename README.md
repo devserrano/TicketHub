@@ -60,7 +60,7 @@ para que Spring escanee todo lo que está debajo.
 ```
 src/main/java/com/tickethub
 ├── TicketHubApplication.java   # clase principal (@SpringBootApplication)
-├── config/          # configuración: seguridad, Swagger, CORS
+├── config/          # configuración general: Swagger, CORS, propiedades app.*
 ├── constants/       # constantes globales (rutas de la API)
 ├── controller/      # endpoints REST: reciben la petición y regresan DTOs
 ├── dto/
@@ -72,7 +72,7 @@ src/main/java/com/tickethub
 ├── mapper/          # convierte entity <-> dto
 ├── repository/      # acceso a datos (Spring Data JPA)
 ├── scheduler/       # tareas programadas (job del SLA)
-├── security/        # JWT: filtro, generación y validación de tokens
+├── security/        # SecurityConfig, errores 401/403, JWT (filtro y servicio)
 ├── service/         # interfaces con la lógica de negocio
 │   └── impl/        # implementación de cada servicio
 └── util/            # utilidades (generador de folio, etc.)
@@ -94,6 +94,8 @@ postman/   k6/   docs/
 - El controller no tiene lógica, solo llama al service.
 - Nunca se regresa una entidad en la API, siempre un DTO.
 - Los repositorios solo se usan desde los services.
+- `util/` es solo para utilidades transversales; si algo pertenece a un tema (correo, archivos, JWT), va en su capa.
+- Configuración propia en `application.yml` bajo `app:` y se lee con `AppProperties`, no con `@Value`.
 
 ## Diagramas
 
