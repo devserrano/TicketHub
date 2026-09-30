@@ -53,27 +53,47 @@ Las variables de entorno están en `.env.example`. En local no necesitas cambiar
 
 ## Estructura del proyecto
 
-Organizado **por módulo de negocio** (no por capa), cada uno con su `controller`, `service`, `repository` y `dto`:
+Arquitectura **por capas**: cada capa solo habla con la de abajo
+(`controller` → `service` → `repository` → base de datos). La clase principal va en el paquete raíz
+para que Spring escanee todo lo que está debajo.
 
 ```
 src/main/java/com/tickethub
-├── TicketHubApplication.java
-├── auth/           # login, registro, JWT, recuperar contraseña
-├── user/           # usuarios y roles
-├── ticket/         # tickets, categorías, estados, SLA, bitácora
-├── comment/        # comentarios públicos e internos
-├── attachment/     # adjuntos (S3/MinIO)
-├── notification/   # correos
-├── report/         # PDF y Excel
-├── dashboard/      # métricas
-└── common/         # config, errores, clases base
+├── TicketHubApplication.java   # clase principal (@SpringBootApplication)
+├── config/          # configuración: seguridad, Swagger, CORS
+├── constants/       # constantes globales (rutas de la API)
+├── controller/      # endpoints REST: reciben la petición y regresan DTOs
+├── dto/
+│   ├── request/     # lo que llega en el body (con validaciones)
+│   └── response/    # lo que regresa la API
+├── entity/          # "beans"/modelos: clases mapeadas a tablas con JPA
+├── enums/           # Role, TicketStatus, Priority
+├── exception/       # excepciones propias + manejador global de errores
+├── mapper/          # convierte entity <-> dto
+├── repository/      # acceso a datos (Spring Data JPA)
+├── scheduler/       # tareas programadas (job del SLA)
+├── security/        # JWT: filtro, generación y validación de tokens
+├── service/         # interfaces con la lógica de negocio
+│   └── impl/        # implementación de cada servicio
+└── util/            # utilidades (generador de folio, etc.)
+
 src/main/resources
 ├── application.yml
-└── db/migration/   # scripts Flyway (V1__..., V2__...)
-postman/            # colección y ambientes
-k6/                 # pruebas de carga
-docs/               # diagramas e imágenes del README
+├── db/migration/    # scripts Flyway (V1__..., V2__...)
+└── templates/email/ # plantillas HTML de correo (fase 4)
+
+src/test/java/com/tickethub   # pruebas, mismo árbol de paquetes que main
+postman/   k6/   docs/
 ```
+
+**Flujo de una petición** (ejemplo ya implementado: `GET /api/v1/categories`):
+`CategoryController` → `CategoryService` / `CategoryServiceImpl` → `CategoryRepository` →
+`Category` (entity) → `CategoryMapper` → `CategoryResponse` (dto).
+
+**Reglas del equipo:**
+- El controller no tiene lógica, solo llama al service.
+- Nunca se regresa una entidad en la API, siempre un DTO.
+- Los repositorios solo se usan desde los services.
 
 ## Diagramas
 
