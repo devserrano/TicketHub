@@ -135,8 +135,8 @@ _Pendiente: diagrama de arquitectura (frontend → API en capas → PostgreSQL /
 ## Cómo trabajamos (equipo)
 
 - `master`: lo que está desplegado. Solo entra por Pull Request.
-- `develop`: integración.
-- Ramas de trabajo desde `develop`: `feature/auth-login`, `feature/tickets-crud`, `fix/...`
+- `integracion`: donde el equipo junta su trabajo antes de pasar a `master`.
+- Ramas de trabajo desde `integracion`: `feature/auth-login`, `feature/tickets-crud`, `fix/...`
 - Commits cortos y en presente: `feat: crear endpoint de login`, `fix: validar tamaño de adjunto`.
 - Antes del PR: `mvn verify` en verde (lo mismo corre GitHub Actions).
 - Nunca subir `.env` ni contraseñas reales.
