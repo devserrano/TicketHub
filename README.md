@@ -86,16 +86,15 @@ src/test/java/com/tickethub   # pruebas, mismo árbol de paquetes que main
 postman/   k6/   docs/
 ```
 
-**Flujo de una petición** (ejemplo ya implementado: `GET /api/v1/categories`):
-`CategoryController` → `CategoryService` / `CategoryServiceImpl` → `CategoryRepository` →
-`Category` (entity) → `CategoryMapper` → `CategoryResponse` (dto).
+**Flujo de una petición:**
+`controller` → `service` (interfaz) / `service/impl` → `repository` → `entity` → `mapper` → `dto/response`.
 
 **Reglas del equipo:**
 - El controller no tiene lógica, solo llama al service.
 - Nunca se regresa una entidad en la API, siempre un DTO.
 - Los repositorios solo se usan desde los services.
 - `util/` es solo para utilidades transversales; si algo pertenece a un tema (correo, archivos, JWT), va en su capa.
-- Configuración propia en `application.yml` bajo `app:` y se lee con `AppProperties`, no con `@Value`.
+- Configuración propia en `application.yml` bajo `app:`, leída con una clase `@ConfigurationProperties` en `config/`.
 
 ## Diagramas
 
